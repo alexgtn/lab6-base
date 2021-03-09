@@ -1,0 +1,15 @@
+services:
+  bookmark-service:
+    build: . # uses Dockerfile in root dir to build the image
+    ports:
+      - 8080:8080
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres # Big THX to Amir.SH!!! for simplifiying DB initialization
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5432:5432"

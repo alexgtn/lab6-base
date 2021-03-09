@@ -1,0 +1,10 @@
+services:
+  bookmark-service:
+    build: . # uses Dockerfile in root dir to build the image
+    ports:
+      - 8080:8080
+  redis:
+    image: redis:6.0.6-alpine
+    command: redis-server
+    ports:
+      - 6379:6379

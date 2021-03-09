@@ -1,0 +1,8 @@
+services:
+  bookmark-service:
+    build: . # uses Dockerfile in root dir to build the image
+    ports:
+      - 8080:8080
+  mongo:
+    image: mongo
+    restart: always
