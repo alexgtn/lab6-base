@@ -3,6 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/alexgtn/esi2021-lab4/pkg/repository"
+	"github.com/alexgtn/esi2021-lab4/pkg/service"
+	"github.com/alexgtn/esi2021-lab4/pkg/transport"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -28,8 +31,9 @@ func main() {
 	}
 
 	// construct application
-	bookmarkRepository := NewBookmarkRepository(dbConn)
-	bookmarkHandler := NewBookmarkHandler(bookmarkRepository)
+	bookmarkRepository := repository.NewBookmarkRepository(dbConn)
+	bookmarkService := service.NewBookmarkService(bookmarkRepository)
+	bookmarkHandler := transport.NewBookmarkHandler(bookmarkService)
 
 	router := mux.NewRouter()
 	// POST /bookmark

@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 
 // Bookmark domain entity
 type Bookmark struct {
-	ID        interface{} `bson:"_id,omitempty" json:"ID"`
+	ID        int
 	Name      string
 	URI       string
 	Category  string

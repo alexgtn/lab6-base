@@ -1,27 +1,33 @@
-package main
+package transport
 
 import (
 	"encoding/json"
+	"github.com/alexgtn/esi2021-lab4/pkg/domain"
 	"log"
 	"net/http"
 )
 
+type bookmarkService interface {
+	Create(book *domain.Bookmark) (*domain.Bookmark, error)
+	GetAll() ([]*domain.Bookmark, error)
+}
+
 // BookmarkHandler is the API handler instances for bookmarks
 type BookmarkHandler struct {
-	bookmarkRepository *BookmarkRepository
+	bookmarkService bookmarkService
 }
 
 // NewBookmarkHandler constructor returns new BookmarkHandler instance
-func NewBookmarkHandler(bookmarkRepository *BookmarkRepository) *BookmarkHandler {
+func NewBookmarkHandler(bS bookmarkService) *BookmarkHandler {
 	return &BookmarkHandler{
-		bookmarkRepository: bookmarkRepository,
+		bookmarkService: bS,
 	}
 }
 
 // CreateBookmark handles creation of bookmark
 func (h *BookmarkHandler) CreateBookmark(w http.ResponseWriter, r *http.Request) {
 	log.Printf("received request %v", r)
-	bookmark := &Bookmark{}
+	bookmark := &domain.Bookmark{}
 	err := json.NewDecoder(r.Body).Decode(bookmark)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -34,7 +40,7 @@ func (h *BookmarkHandler) CreateBookmark(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	createdBookmark, err := h.bookmarkRepository.Create(bookmark)
+	createdBookmark, err := h.bookmarkService.Create(bookmark)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -51,7 +57,7 @@ func (h *BookmarkHandler) CreateBookmark(w http.ResponseWriter, r *http.Request)
 // getBookmarks retrieves all bookmarks
 func (h *BookmarkHandler) GetBookmarks(w http.ResponseWriter, r *http.Request) {
 	log.Printf("received request %v", r)
-	bookmarks, err := h.bookmarkRepository.GetAll()
+	bookmarks, err := h.bookmarkService.GetAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

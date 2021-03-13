@@ -1,9 +1,10 @@
-package main
+package repository
 
 import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/alexgtn/esi2021-lab4/pkg/domain"
 )
 
 // BookmarkRepository stores bookmarks
@@ -19,7 +20,7 @@ func NewBookmarkRepository(db *sql.DB) *BookmarkRepository {
 }
 
 // Create creates bookmark
-func (r *BookmarkRepository) Create(bookmark *Bookmark) (*Bookmark, error) {
+func (r *BookmarkRepository) Create(bookmark *domain.Bookmark) (*domain.Bookmark, error) {
 	query := "INSERT into bookmark (category, name, uri) values($1, $2, $3) RETURNING id, created_at"
 	// QueryRowContext executes the query
 	// context usually holds an execution timer, metadata etc.
@@ -40,16 +41,16 @@ func (r *BookmarkRepository) Create(bookmark *Bookmark) (*Bookmark, error) {
 }
 
 // GetAll gets all bookmarks
-func (r *BookmarkRepository) GetAll() ([]*Bookmark, error) {
+func (r *BookmarkRepository) GetAll() ([]*domain.Bookmark, error) {
 	query := "SELECT id, category, name, uri, created_at from bookmark"
 	rows, err := r.db.QueryContext(context.Background(), query)
 	if err != nil {
 		return nil, fmt.Errorf("error querying bookmarks, err: %v", err)
 	}
 
-	bookmarks := []*Bookmark{}
+	bookmarks := []*domain.Bookmark{}
 	for rows.Next() {
-		b := &Bookmark{}
+		b := &domain.Bookmark{}
 		err := rows.Scan(&b.ID, &b.Category, &b.Name, &b.URI, &b.CreatedAt)
 		if err != nil {
 			return nil, fmt.Errorf("error scaning query, err: %v", err)
