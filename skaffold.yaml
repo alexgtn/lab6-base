@@ -7,7 +7,7 @@ build:
       dockerfile: ./Dockerfile
   - image: bookmark-service-postgres
     docker:
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.postgres
   local:
     useDockerCLI: true
 deploy:
