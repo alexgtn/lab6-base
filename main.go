@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	// SQL driver
 	// https://www.calhoun.io/why-we-import-sql-drivers-with-the-blank-identifier/
@@ -44,9 +45,13 @@ func main() {
 	// GET /bookmark
 	router.HandleFunc("/bookmark", bookmarkHandler.GetBookmarks).Methods(http.MethodGet)
 
+	portInt, err := strconv.Atoi(httpServicePort)
+	if err != nil {
+		fmt.Errorf("error parsing port: %s", err.Error())
+	}
 	// setup http server
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", httpServicePort),
+		Addr:    fmt.Sprintf(":%d", portInt),
 		Handler: router,
 	}
 
