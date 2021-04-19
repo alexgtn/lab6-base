@@ -52,7 +52,7 @@ func main() {
 
 	err = srv.ListenAndServe()
 	if err != nil {
-		log.Fatalf("Could not start server")
+		log.Fatalf("Could not start server %s", err.Error())
 	}
 
 	log.Println("Stop bookmark server")
