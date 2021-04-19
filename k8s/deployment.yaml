@@ -18,19 +18,32 @@ spec:
         resources: pico
     spec:
       containers:
+      - name: postgres
+        image: postgres:13
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+          - name: POSTGRES_DB
+            value: "postgres"
+        ports:
+          - containerPort: 5432
+            name: db-port
       - name: bookmark-service
         image: bookmark-service
         imagePullPolicy: IfNotPresent
         envFrom:
           - configMapRef:
               name: bookmark-service-config
-        resources:
-          limits:
-            memory: 0.75G
-            cpu: 500m
-          requests:
-            memory: 0.1G
-            cpu: 25m
+#        resources:
+#          limits:
+#            memory: 0.75G
+#            cpu: 500m
+#          requests:
+#            memory: 0.1G
+#            cpu: 25m
         ports:
         - containerPort: 8080
           name: service
