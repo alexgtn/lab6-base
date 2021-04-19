@@ -24,8 +24,6 @@ spec:
         envFrom:
           - configMapRef:
               name: bookmark-service-config
-          - configMapRef:
-              name: bookmark-service-env-config
         resources:
           limits:
             memory: 0.75G
