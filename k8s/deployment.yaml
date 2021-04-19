@@ -20,7 +20,7 @@ spec:
       containers:
       - name: bookmark-service
         image: bookmark-service
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
           - configMapRef:
               name: bookmark-service-config
