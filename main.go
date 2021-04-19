@@ -9,6 +9,8 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
+
 	// SQL driver
 	// https://www.calhoun.io/why-we-import-sql-drivers-with-the-blank-identifier/
 	// The sql package must be used in conjunction with a database driver. In this case PostgreSQL driver.
@@ -16,9 +18,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	httpServicePort    = 8080
-	postgresConnection = "dbname=postgres host=postgres password=postgres user=postgres sslmode=disable port=5432"
+var (
+	httpServicePort    = os.Getenv("SERVICE_PORT")
+	postgresConnection = os.Getenv("POSTGRES_CONNECTION")
 )
 
 func main() {

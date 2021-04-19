@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bookmark-service-config
+  labels:
+    app: bookmark-service
+data:
+  SERVICE_PORT: "8080"
+  POSTGRES_CONNECTION: "dbname=postgres host=postgres password=postgres user=postgres sslmode=disable port=5432"

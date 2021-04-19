@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookmark-service-deployment
+  labels:
+    app: bookmark-service
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: bookmark-service
+  template:
+    metadata:
+      labels:
+        app: bookmark-service
+        resources: pico
+    spec:
+      containers:
+      - name: bookmark-service
+        image: bookmark-service
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: bookmark-service-config
+          - configMapRef:
+              name: bookmark-service-env-config
+        resources:
+          limits:
+            memory: 0.75G
+            cpu: 500m
+          requests:
+            memory: 0.1G
+            cpu: 25m
+        ports:
+        - containerPort: 8080
+          name: service
