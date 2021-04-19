@@ -25,6 +25,7 @@ var (
 
 func main() {
 	log.Println("Start bookmark server")
+	log.Printf("envs %s %s", httpServicePort, postgresConnection)
 
 	// open Postgres connection
 	dbConn, err := sql.Open("postgres", postgresConnection)
